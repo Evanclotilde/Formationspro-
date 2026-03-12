@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FormationsPro — Formations & Ebooks Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:#f5f0e8;color:#2d2d2d;overflow-x:hidden}
+a{text-decoration:none}
+:root{--or:#c9a84c;--or2:#e8d5a3;--noir:#0a0a0a;--blanc:#fff;--creme:#f5f0e8;--texte:#2d2d2d;--gris:#888;--vert:#2d6a4f;--rouge:#c0392b;--accent:#1a1a2e}
+
+/* PROGRESS */
+#bar{position:fixed;top:0;left:0;z-index:300;height:3px;width:0;background:linear-gradient(90deg,var(--or),var(--or2));box-shadow:0 0 10px rgba(201,168,76,.7);transition:width .1s linear}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.15);display:flex;align-items:center;justify-content:space-between;padding:0 5%;transition:box-shadow .3s}
+nav.sc{box-shadow:0 4px 40px rgba(0,0,0,.6)}
+.logo{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:900;color:var(--or)}
+.logo b{color:var(--blanc);font-weight:900}
+.nl{display:flex;gap:1.8rem;list-style:none}
+.nl a{color:rgba(255,255,255,.65);font-size:.87rem;font-weight:500;letter-spacing:.04em;transition:color .2s}
+.nl a:hover{color:var(--or)}
+.btn-nav{background:var(--or);color:var(--noir);border:none;padding:.5rem 1.3rem;border-radius:4px;font-weight:700;font-size:.84rem;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.04em;transition:all .2s}
+.btn-nav:hover{background:var(--or2);transform:translateY(-1px)}
+.bur{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.bur span{display:block;width:24px;height:2px;background:var(--blanc);border-radius:2px;transition:all .3s}
+.bur.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.bur.open span:nth-child(2){opacity:0}
+.bur.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mnav{display:none;position:fixed;top:68px;left:0;right:0;z-index:199;background:rgba(10,10,10,.98);border-bottom:1px solid rgba(201,168,76,.1);flex-direction:column}
+.mnav.open{display:flex}
+.mnav a{color:rgba(255,255,255,.7);padding:1rem 5%;font-size:.95rem;font-weight:500;border-bottom:1px solid rgba(255,255,255,.05);transition:color .2s}
+.mnav a:last-child{color:var(--or);font-weight:700}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--noir);display:flex;align-items:center;padding:68px 5% 0;position:relative;overflow:hidden}
+.hbg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 75% 30%,rgba(201,168,76,.12) 0%,transparent 65%),radial-gradient(ellipse 50% 70% at 5% 85%,rgba(26,26,46,.9) 0%,transparent 60%)}
+.hgrid{position:absolute;inset:0;pointer-events:none;opacity:.03;background-image:linear-gradient(rgba(201,168,76,1) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,1) 1px,transparent 1px);background-size:55px 55px}
+.horb{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(52vw,580px);aspect-ratio:1;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 40% 40%,rgba(201,168,76,.14),rgba(201,168,76,.03) 55%,transparent 70%);border:1px solid rgba(201,168,76,.08)}
+.hc{position:relative;z-index:2;max-width:640px;padding:5rem 0 4rem}
+.hbadge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--or);font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.42rem 1rem;border-radius:3px;margin-bottom:1.8rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.6rem);font-weight:900;color:var(--blanc);line-height:1.07;margin-bottom:1.4rem}
+.hero h1 em{color:var(--or);font-style:italic}
+.hdesc{color:rgba(255,255,255,.55);font-size:1.05rem;line-height:1.75;margin-bottom:2.2rem;max-width:500px}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-p{background:var(--or);color:var(--noir);padding:.9rem 2rem;border-radius:4px;font-weight:700;font-size:.95rem;border:none;cursor:pointer;letter-spacing:.04em;font-family:'DM Sans',sans-serif;transition:all .25s;display:inline-block}
+.btn-p:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 10px 35px rgba(201,168,76,.4)}
+.btn-o{background:transparent;color:var(--blanc);padding:.9rem 2rem;border-radius:4px;font-weight:600;font-size:.95rem;border:1px solid rgba(255,255,255,.2);cursor:pointer;letter-spacing:.04em;font-family:'DM Sans',sans-serif;transition:all .25s;display:inline-block}
+.btn-o:hover{border-color:var(--or);color:var(--or)}
+.hstats{display:flex;gap:2.5rem;flex-wrap:wrap}
+.sn{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--or);display:block}
+.sl{color:rgba(255,255,255,.4);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* TRUST */
+.trust{background:var(--or);padding:.85rem 5%;display:flex;gap:1.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:.45rem;font-size:.82rem;font-weight:700;color:var(--noir);white-space:nowrap}
+
+/* SECTIONS */
+.sec{padding:5.5rem 5%}
+.slbl{font-size:.73rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--or);display:block;margin-bottom:.7rem}
+.stit{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:900;line-height:1.13;margin-bottom:.9rem}
+.ssub{color:var(--gris);font-size:1rem;max-width:500px;line-height:1.65}
+.shead{margin-bottom:3rem}
+
+/* CATALOGUE */
+#cat{background:var(--creme)}
+.filts{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.2rem}
+.flt{background:transparent;border:1.5px solid #d0cbc2;color:var(--texte);padding:.48rem 1.15rem;border-radius:30px;font-size:.83rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.flt.on,.flt:hover{background:var(--noir);color:var(--or);border-color:var(--noir)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.8rem}
+.card{background:var(--blanc);border-radius:10px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.07);transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-7px);box-shadow:0 16px 45px rgba(0,0,0,.13)}
+.ci{height:185px;position:relative;display:flex;align-items:center;justify-content:center;font-size:3.5rem}
+.ci::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.2))}
+.cbg{position:absolute;top:12px;left:12px;z-index:2;background:var(--noir);color:var(--or);font-size:.66rem;font-weight:700;letter-spacing:.1em;padding:.26rem .65rem;border-radius:3px;text-transform:uppercase}
+.cbg.eb{background:var(--vert);color:#fff}
+.crb{position:absolute;top:12px;right:0;z-index:2;background:var(--rouge);color:#fff;font-size:.64rem;font-weight:700;letter-spacing:.07em;padding:.26rem .75rem .26rem .6rem;border-radius:3px 0 0 3px;text-transform:uppercase}
+.cb{padding:1.4rem}
+.ccat{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);margin-bottom:.4rem}
+.card h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.card p{font-size:.86rem;color:var(--gris);line-height:1.6;margin-bottom:.9rem}
+.cm{display:flex;gap:.9rem;margin-bottom:.9rem;flex-wrap:wrap}
+.mi{font-size:.77rem;color:var(--gris)}
+.mi strong{color:var(--texte)}
+.cf{display:flex;align-items:center;justify-content:space-between;padding-top:.9rem;border-top:1px solid #ede9e3}
+.pr{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:900;color:var(--noir)}
+.pro{font-size:.8rem;color:#bbb;text-decoration:line-through;margin-left:.35rem}
+.btn-c{background:var(--noir);color:var(--blanc);border:none;padding:.6rem 1.3rem;border-radius:4px;font-size:.84rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-c:hover{background:var(--or);color:var(--noir)}
+
+/* AVANTAGES */
+#av{background:var(--noir)}
+#av .stit{color:var(--blanc)}
+#av .ssub{color:rgba(255,255,255,.45)}
+.avg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.4rem}
+.avi{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.8rem 1.5rem;transition:all .3s;position:relative;overflow:hidden}
+.avi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--or),transparent);opacity:0;transition:opacity .3s}
+.avi:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.04);transform:translateY(-4px)}
+.avi:hover::before{opacity:1}
+.aico{font-size:1.9rem;margin-bottom:.9rem}
+.avi h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--blanc);margin-bottom:.5rem}
+.avi p{color:rgba(255,255,255,.45);font-size:.87rem;line-height:1.65}
+
+/* PACK */
+#pack{background:linear-gradient(135deg,#0e0e1c,#0a0a0a);padding:5.5rem 5%;text-align:center;position:relative;overflow:hidden}
+#pack::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(201,168,76,.07),transparent 70%)}
+.pkc{display:inline-flex;flex-direction:column;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.3);border-radius:14px;padding:2.5rem 2.8rem;max-width:480px;width:100%;position:relative;box-shadow:0 0 60px rgba(201,168,76,.1);text-align:left}
+.pktb{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--or);color:var(--noir);font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.32rem 1.2rem;border-radius:20px;white-space:nowrap}
+.pkl{list-style:none;margin:1.5rem 0 2rem}
+.pkl li{color:rgba(255,255,255,.75);font-size:.91rem;padding:.52rem 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:.7rem}
+.pkl li:last-child{border-bottom:none}
+.ck{color:var(--or)}
+.pkp{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--or)}
+.pko{font-size:1rem;color:rgba(255,255,255,.3);text-decoration:line-through;margin-left:.5rem}
+.pke{font-size:.78rem;color:var(--or2);font-weight:600;margin-top:.25rem;margin-bottom:1.5rem}
+.pkb{width:100%;background:var(--or);color:var(--noir);border:none;padding:1rem;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .25s;letter-spacing:.03em}
+.pkb:hover{background:var(--or2);transform:translateY(-2px)}
+
+/* TEMOIGNAGES */
+#tem{background:var(--creme)}
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.tm{background:var(--blanc);border-radius:10px;padding:1.8rem;box-shadow:0 2px 20px rgba(0,0,0,.055);position:relative;transition:transform .3s,box-shadow .3s}
+.tm:hover{transform:translateY(-4px);box-shadow:0 10px 35px rgba(0,0,0,.1)}
+.tm::before{content:'"';position:absolute;top:.8rem;right:1.3rem;font-family:'Playfair Display',serif;font-size:5rem;color:rgba(201,168,76,.1);line-height:1;pointer-events:none}
+.sts{color:var(--or);font-size:.9rem;margin-bottom:.9rem;letter-spacing:.1em}
+.tm blockquote{font-style:italic;color:var(--texte);line-height:1.7;margin-bottom:1.2rem;font-size:.93rem}
+.ta{display:flex;align-items:center;gap:.75rem}
+.av2{width:40px;height:40px;border-radius:50%;background:var(--creme);border:2px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.an{font-size:.83rem;font-weight:700;color:var(--texte)}
+.ar{font-size:.77rem;color:var(--gris)}
+.vrf{font-size:.68rem;color:var(--vert);font-weight:700;margin-top:.15rem}
+
+/* NEWSLETTER */
+#nl{background:linear-gradient(135deg,var(--accent),#08080f);padding:5rem 5%;text-align:center}
+#nl h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3vw,2.4rem);color:var(--blanc);margin-bottom:.75rem}
+#nl h2 em{color:var(--or);font-style:italic}
+#nl>p{color:rgba(255,255,255,.5);margin-bottom:1.8rem}
+.nlf{display:flex;gap:.75rem;max-width:460px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.nlf input{flex:1;min-width:210px;padding:.85rem 1.1rem;border:1.5px solid rgba(255,255,255,.12);border-radius:5px;background:rgba(255,255,255,.06);color:var(--blanc);font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s}
+.nlf input::placeholder{color:rgba(255,255,255,.3)}
+.nlf input:focus{border-color:var(--or)}
+.nlf button{background:var(--or);color:var(--noir);border:none;padding:.85rem 1.6rem;border-radius:5px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.nlf button:hover{background:var(--or2)}
+.nln{color:rgba(255,255,255,.2);font-size:.73rem;margin-top:.9rem}
+
+/* FOOTER */
+footer{background:#060606;color:rgba(255,255,255,.4);padding:4rem 5% 2.5rem;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:3rem}
+.flo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--or);display:block;margin-bottom:.9rem}
+.flo b{color:rgba(255,255,255,.3);font-weight:900}
+.fde{font-size:.84rem;line-height:1.65;max-width:250px}
+.fso{display:flex;gap:.7rem;margin-top:1.1rem}
+.fso a{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.88rem;color:rgba(255,255,255,.4);transition:all .2s}
+.fso a:hover{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.06)}
+footer h5{color:rgba(255,255,255,.6);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.1rem}
+footer ul{list-style:none}
+footer ul li{margin-bottom:.55rem}
+footer ul a{color:rgba(255,255,255,.38);font-size:.83rem;transition:color .2s}
+footer ul a:hover{color:var(--or)}
+.fbot{background:#060606;border-top:1px solid rgba(255,255,255,.05);padding:1.2rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.77rem;color:rgba(255,255,255,.2)}
+.fbot a{color:rgba(255,255,255,.3);transition:color .2s}
+.fbot a:hover{color:var(--or)}
+
+/* MODAL */
+.ovl{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem}
+.ovl.open{display:flex}
+.modal{background:var(--blanc);border-radius:14px;padding:2.3rem;max-width:460px;width:100%;position:relative;max-height:90vh;overflow-y:auto;animation:pop .3s cubic-bezier(.34,1.3,.64,1)}
+@keyframes pop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.mx{position:absolute;top:1rem;right:1rem;background:#f2f2f2;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;color:var(--gris);transition:background .2s}
+.mx:hover{background:#e5e5e5}
+.modal h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.3rem}
+.mn{color:var(--or);font-weight:600;font-size:.88rem;margin-bottom:.4rem}
+.mp{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:900;margin-bottom:.5rem}
+.murg{display:inline-flex;align-items:center;gap:.35rem;background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.18);color:var(--rouge);font-size:.76rem;font-weight:700;padding:.28rem .65rem;border-radius:4px;margin-bottom:1.3rem}
+.mpe{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.pk{display:flex;align-items:center;gap:.35rem;font-size:.76rem;color:#555;font-weight:600}
+.div{border:none;border-top:1px solid #efefef;margin:1.2rem 0}
+.mtxt{color:#555;font-size:.88rem;line-height:1.65;margin-bottom:1.2rem}
+.btp{width:100%;background:var(--noir);color:var(--blanc);border:none;padding:.95rem;border-radius:7px;font-size:.98rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .25s;letter-spacing:.03em}
+.btp:hover{background:var(--or);color:var(--noir)}
+.sec2{text-align:center;margin-top:.8rem;font-size:.75rem;color:var(--gris)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.8rem;right:1.8rem;z-index:9999;background:var(--vert);color:#fff;padding:.9rem 1.4rem;border-radius:10px;font-weight:700;font-size:.88rem;box-shadow:0 8px 30px rgba(0,0,0,.25);transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.4,.64,1);max-width:300px}
+.toast.on{transform:translateY(0);opacity:1}
+.toast.w{background:#92400e}
+
+/* FLOAT BTN */
+.fb{display:none;position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);z-index:400;background:var(--or);color:var(--noir);border:none;padding:.8rem 2rem;border-radius:50px;font-weight:700;font-size:.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;box-shadow:0 6px 28px rgba(201,168,76,.55)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nl,.btn-nav{display:none}
+  .bur{display:flex}
+  .fb{display:block}
+  footer{grid-template-columns:1fr}
+  .fbot{flex-direction:column;text-align:center}
+  .horb{display:none}
+  .ti:nth-child(n+4){display:none}
+  .pkc{padding:2rem 1.4rem}
+}
+@media(max-width:480px){
+  .hero h1{font-size:2.3rem}
+  .hbtns{flex-direction:column}
+  .hbtns .btn-p,.hbtns .btn-o{text-align:center}
+  .hstats{gap:1.5rem}
+  .modal{padding:1.7rem 1.2rem}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+
+<nav id="nav">
+  <a href="#" class="logo">Formation<b>Pro</b></a>
+  <ul class="nl">
+    <li><a href="#cat">Formations</a></li>
+    <li><a href="#cat">Ebooks</a></li>
+    <li><a href="#av">Pourquoi nous</a></li>
+    <li><a href="#tem">Avis</a></li>
+  </ul>
+  <button class="btn-nav" onclick="goTo('cat')">Voir le catalogue →</button>
+  <button class="bur" id="bur" onclick="togMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mnav" id="mnav">
+  <a href="#cat" onclick="closeMn()">Formations</a>
+  <a href="#cat" onclick="closeMn()">Ebooks</a>
+  <a href="#av" onclick="closeMn()">Pourquoi nous</a>
+  <a href="#tem" onclick="closeMn()">Avis clients</a>
+  <a href="#cat" onclick="closeMn()">→ Voir le catalogue</a>
+</div>
+
+<section class="hero">
+  <div class="hbg"></div>
+  <div class="hgrid"></div>
+  <div class="horb"></div>
+  <div class="hc anim-left">
+    <span class="hbadge">✦ Formations en ligne &amp; Ebooks premium</span>
+    <h1>Développez vos<br><em>compétences</em><br>sans limites</h1>
+    <p class="hdesc">Des formations complètes et des ebooks pratiques pour évoluer, quel que soit votre niveau. Apprenez à votre rythme, où que vous soyez.</p>
+    <div class="hbtns">
+      <a href="#cat" class="btn-p">Explorer le catalogue</a>
+      <a href="#av" class="btn-o">Comment ça fonctionne</a>
+    </div>
+    <div class="hstats">
+      <div><span class="sn">1 200+</span><span class="sl">Étudiants</span></div>
+      <div><span class="sn">48</span><span class="sl">Produits</span></div>
+      <div><span class="sn">4.9★</span><span class="sl">Note moyenne</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="ti anim-up">🔒 Paiement sécurisé SSL</div>
+  <div class="ti anim-up">♾️ Accès à vie garanti</div>
+  <div class="ti anim-up">✅ Remboursé sous 30 jours</div>
+  <div class="ti anim-up">⚡ Accès immédiat</div>
+  <div class="ti anim-up">🎓 Certificats inclus</div>
+</div>
+
+<section class="sec" id="cat">
+  <div class="shead anim">
+    <span class="slbl">✦ Catalogue complet</span>
+    <h2 class="stit">Formations &amp; Ebooks</h2>
+    <p class="ssub">Choisissez parmi nos ressources soigneusement conçues pour accélérer votre progression.</p>
+  </div>
+  <div class="filts">
+    <button class="flt on" onclick="fil('all',this)">Tout voir</button>
+    <button class="flt" onclick="fil('formation',this)">Formations</button>
+    <button class="flt" onclick="fil('ebook',this)">Ebooks</button>
+    <button class="flt" onclick="fil('marketing',this)">Marketing</button>
+    <button class="flt" onclick="fil('finance',this)">Finance</button>
+    <button class="flt" onclick="fil('dev',this)">Dev personnel</button>
+  </div>
+  <div class="grid">
+
+    <div class="card anim-up d1" data-t="formation" data-c="marketing">
+      <div class="ci" style="background:linear-gradient(135deg,#0d0d1f,#1a1a3e)"><span>📈</span><span class="cbg">Formation</span><span class="crb">⭐ Bestseller</span></div>
+      <div class="cb">
+        <div class="ccat">Marketing digital</div>
+        <h3>Maîtrisez les Réseaux Sociaux en 30 jours</h3>
+        <p>Créez une stratégie social media performante, boostez votre visibilité et convertissez votre audience.</p>
+        <div class="cm"><span class="mi"><strong>12h</strong> contenu</span><span class="mi"><strong>47</strong> leçons</span><span class="mi">⭐ <strong>4.9</strong></span></div>
+        <div class="cf"><div><span class="pr">247€</span><span class="pro">397€</span></div><button class="btn-c" onclick="openM('Maîtrisez les Réseaux Sociaux en 30 jours','247€','https://buy.stripe.com/test_bJe6oJ7869hwcPsavB3cc02')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d2" data-t="formation" data-c="finance">
+      <div class="ci" style="background:linear-gradient(135deg,#071a0f,#0d3b20)"><span>💰</span><span class="cbg">Formation</span></div>
+      <div class="cb">
+        <div class="ccat">Finance personnelle</div>
+        <h3>Investir en Bourse pour Débutants</h3>
+        <p>Comprenez les marchés, construisez votre portefeuille et faites croître votre patrimoine sereinement.</p>
+        <div class="cm"><span class="mi"><strong>8h</strong> contenu</span><span class="mi"><strong>32</strong> leçons</span><span class="mi">⭐ <strong>4.8</strong></span></div>
+        <div class="cf"><div><span class="pr">197€</span><span class="pro">297€</span></div><button class="btn-c" onclick="openM('Investir en Bourse pour Débutants','197€','https://buy.stripe.com/test_7sYbJ3786alA3eS8nt3cc04')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d3" data-t="formation" data-c="dev">
+      <div class="ci" style="background:linear-gradient(135deg,#160b2e,#2d1b4e)"><span>🧠</span><span class="cbg">Formation</span><span class="crb">🔥 Populaire</span></div>
+      <div class="cb">
+        <div class="ccat">Développement personnel</div>
+        <h3>Productivité Extrême — La méthode complète</h3>
+        <p>Multipliez par 3 votre efficacité, éliminez la procrastination et atteignez vos objectifs plus vite.</p>
+        <div class="cm"><span class="mi"><strong>6h</strong> contenu</span><span class="mi"><strong>28</strong> leçons</span><span class="mi">⭐ <strong>5.0</strong></span></div>
+        <div class="cf"><div><span class="pr">127€</span><span class="pro">197€</span></div><button class="btn-c" onclick="openM('Productivité Extrême — La méthode complète','127€','https://buy.stripe.com/test_6oUfZjeAybpEaHkfPV3cc05')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d4" data-t="formation" data-c="marketing">
+      <div class="ci" style="background:linear-gradient(135deg,#1a0c05,#3d1f0a)"><span>✉️</span><span class="cbg">Formation</span></div>
+      <div class="cb">
+        <div class="ccat">Marketing digital</div>
+        <h3>Email Marketing &amp; Tunnels de Vente</h3>
+        <p>Créez des séquences email qui convertissent, automatisez vos ventes et fidélisez vos clients.</p>
+        <div class="cm"><span class="mi"><strong>10h</strong> contenu</span><span class="mi"><strong>40</strong> leçons</span><span class="mi">⭐ <strong>4.9</strong></span></div>
+        <div class="cf"><div><span class="pr">217€</span><span class="pro">347€</span></div><button class="btn-c" onclick="openM('Email Marketing &amp; Tunnels de Vente','217€','https://buy.stripe.com/test_aFaaEZ9ge8dsdTw0V13cc06')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d1" data-t="ebook" data-c="marketing">
+      <div class="ci" style="background:linear-gradient(135deg,#0d1e2e,#1a3a5c)"><span>📘</span><span class="cbg eb">Ebook</span><span class="crb">⭐ Bestseller</span></div>
+      <div class="cb">
+        <div class="ccat">Marketing digital</div>
+        <h3>100 Hooks qui Convertissent sur Instagram</h3>
+        <p>Guide pratique de 80 pages avec 100 accroches prêtes à l'emploi pour exploser votre engagement.</p>
+        <div class="cm"><span class="mi"><strong>80</strong> pages</span><span class="mi"><strong>PDF</strong> immédiat</span><span class="mi">⭐ <strong>4.9</strong></span></div>
+        <div class="cf"><div><span class="pr">37€</span><span class="pro">67€</span></div><button class="btn-c" onclick="openM('100 Hooks qui Convertissent sur Instagram','37€','https://buy.stripe.com/test_8x2dRbdwufFUg1E9rx3cc07')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d2" data-t="ebook" data-c="finance">
+      <div class="ci" style="background:linear-gradient(135deg,#0a1a0a,#1a3a1a)"><span>📗</span><span class="cbg eb">Ebook</span></div>
+      <div class="cb">
+        <div class="ccat">Finance personnelle</div>
+        <h3>Le Guide Complet de l'Indépendance Financière</h3>
+        <p>Stratégies concrètes pour économiser, investir et bâtir plusieurs sources de revenus passifs.</p>
+        <div class="cm"><span class="mi"><strong>120</strong> pages</span><span class="mi"><strong>PDF</strong> immédiat</span><span class="mi">⭐ <strong>4.8</strong></span></div>
+        <div class="cf"><div><span class="pr">47€</span><span class="pro">77€</span></div><button class="btn-c" onclick="openM('Guide Complet Indépendance Financière','47€','https://buy.stripe.com/test_5kQcN7aki79obLo5bh3cc08')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d3" data-t="ebook" data-c="dev">
+      <div class="ci" style="background:linear-gradient(135deg,#1a0a1a,#3a1a3a)"><span>📕</span><span class="cbg eb">Ebook</span></div>
+      <div class="cb">
+        <div class="ccat">Développement personnel</div>
+        <h3>Mindset Millionnaire — Reprogrammez vos croyances</h3>
+        <p>Les habitudes mentales des personnes qui réussissent et comment les adopter rapidement.</p>
+        <div class="cm"><span class="mi"><strong>95</strong> pages</span><span class="mi"><strong>PDF</strong> immédiat</span><span class="mi">⭐ <strong>5.0</strong></span></div>
+        <div class="cf"><div><span class="pr">27€</span><span class="pro">39€</span></div><button class="btn-c" onclick="openM('Mindset Millionnaire','27€','https://buy.stripe.com/test_eVq5kF3VUeBQ7v86fl3cc09')">Acheter</button></div>
+      </div>
+    </div>
+
+    <div class="card anim-up d4" data-t="ebook" data-c="marketing">
+      <div class="ci" style="background:linear-gradient(135deg,#1a1505,#3a2d0a)"><span>📙</span><span class="cbg eb">Ebook</span><span class="crb">🔥 Nouveau</span></div>
+      <div class="cb">
+        <div class="ccat">Business &amp; Marketing</div>
+        <h3>Lancer son Business en Ligne de A à Z</h3>
+        <p>Plan d'action complet : idée, validation, création, lancement et premières ventes en 30 jours.</p>
+        <div class="cm"><span class="mi"><strong>150</strong> pages</span><span class="mi"><strong>PDF</strong> immédiat</span><span class="mi">⭐ <strong>4.9</strong></span></div>
+        <div class="cf"><div><span class="pr">67€</span><span class="pro">97€</span></div><button class="btn-c" onclick="openM('Lancer son Business en Ligne de A à Z','67€','https://buy.stripe.com/test_8x200lgIGeBQg1EgTZ3cc0a')">Acheter</button></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="sec" id="av">
+  <div class="shead anim">
+    <span class="slbl">✦ Pourquoi nous choisir</span>
+    <h2 class="stit">L'excellence à chaque étape</h2>
+    <p class="ssub">Tout est conçu pour que votre apprentissage soit rapide, efficace et agréable.</p>
+  </div>
+  <div class="avg">
+    <div class="avi anim-up d1"><div class="aico">⚡</div><h4>Accès immédiat</h4><p>Dès votre paiement validé, accédez instantanément à 100% du contenu. Pas d'attente.</p></div>
+    <div class="avi anim-up d2"><div class="aico">♾️</div><h4>Accès à vie</h4><p>Payez une seule fois et profitez de votre contenu pour toujours, mises à jour incluses.</p></div>
+    <div class="avi anim-up d3"><div class="aico">📱</div><h4>Multi-appareils</h4><p>Apprenez depuis votre ordinateur, tablette ou smartphone. Votre progression est synchronisée.</p></div>
+    <div class="avi anim-up d1"><div class="aico">🛡️</div><h4>Satisfait ou remboursé</h4><p>Pas convaincu dans les 30 jours ? Remboursement intégral, sans question posée.</p></div>
+    <div class="avi anim-up d2"><div class="aico">🎓</div><h4>Certificats inclus</h4><p>Chaque formation complétée vous donne un certificat officiel valorisable sur LinkedIn.</p></div>
+    <div class="avi anim-up d3"><div class="aico">💬</div><h4>Support prioritaire</h4><p>Une question ? Notre équipe vous répond sous 24h par email pour vous accompagner.</p></div>
+  </div>
+</section>
+
+<section id="pack">
+  <span class="slbl" style="display:block;margin-bottom:.7rem">✦ Offre spéciale</span>
+  <h2 class="stit" style="color:var(--blanc);margin-bottom:.8rem">Le Pack <em style="color:var(--or);font-style:italic">Complet</em></h2>
+  <p style="color:rgba(255,255,255,.48);max-width:440px;margin:0 auto 2.5rem;line-height:1.65">Toutes nos formations et ebooks en un seul accès. La solution la plus rentable pour transformer votre vie.</p>
+  <div style="display:flex;justify-content:center">
+    <div class="pkc anim">
+      <span class="pktb">🏆 Meilleure valeur — Économisez 60%</span>
+      <ul class="pkl">
+        <li><span class="ck">✦</span> 4 formations complètes (36h+ de contenu)</li>
+        <li><span class="ck">✦</span> 4 ebooks premium (445 pages)</li>
+        <li><span class="ck">✦</span> Accès à toutes les mises à jour futures</li>
+        <li><span class="ck">✦</span> Certificats pour chaque formation</li>
+        <li><span class="ck">✦</span> Support prioritaire 24h</li>
+        <li><span class="ck">✦</span> Communauté privée incluse</li>
+      </ul>
+      <div><span class="pkp">497€</span><span class="pko">1 240€</span></div>
+      <div class="pke">Vous économisez 743€ — Offre limitée</div>
+      <button class="pkb" onclick="openM('Pack Complet — Toutes les formations & ebooks','497€','https://buy.stripe.com/test_3cIaEZbomgJY8zc6fl3cc0b')">🔒 Obtenir le Pack Complet</button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tem">
+  <div class="shead anim">
+    <span class="slbl">✦ Ce que disent nos clients</span>
+    <h2 class="stit">Ils ont transformé<br>leur vie</h2>
+  </div>
+  <div class="tg">
+    <div class="tm anim-up d1">
+      <div class="sts">★★★★★</div>
+      <blockquote>"La formation sur les réseaux sociaux a complètement changé mon approche. En un mois, j'ai triplé mon nombre d'abonnés et décroché mes 3 premiers clients."</blockquote>
+      <div class="ta"><div class="av2">👩</div><div><div class="an">Sophie M.</div><div class="ar">Créatrice de contenu, Lyon</div><div class="vrf">✓ Achat vérifié</div></div></div>
+    </div>
+    <div class="tm anim-up d2">
+      <div class="sts">★★★★★</div>
+      <blockquote>"L'ebook sur les hooks Instagram vaut vraiment chaque euro. J'ai implémenté les accroches et mes posts atteignent maintenant 3x plus de personnes."</blockquote>
+      <div class="ta"><div class="av2">👨</div><div><div class="an">Karim L.</div><div class="ar">Entrepreneur, Paris</div><div class="vrf">✓ Achat vérifié</div></div></div>
+    </div>
+    <div class="tm anim-up d3">
+      <div class="sts">★★★★★</div>
+      <blockquote>"Formation bourse excellente pour un débutant. Explications claires, progression logique. J'ai ouvert mon premier compte dès la fin de la formation !"</blockquote>
+      <div class="ta"><div class="av2">👩</div><div><div class="an">Amandine R.</div><div class="ar">Infirmière, Bordeaux</div><div class="vrf">✓ Achat vérifié</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="nl" class="anim">
+  <h2>Recevez nos ressources<br><em>gratuites</em> chaque semaine</h2>
+  <p>Conseils pratiques, nouveaux ebooks, offres exclusives — dans votre boîte mail.</p>
+  <div class="nlf">
+    <input type="email" id="nle" placeholder="votre@email.com">
+    <button onclick="sub()">S'inscrire gratuitement</button>
+  </div>
+  <p class="nln">Aucun spam. Désabonnement en 1 clic.</p>
+</section>
+
+<footer>
+  <div>
+    <span class="flo">Formation<b>Pro</b></span>
+    <p class="fde">La plateforme de référence pour apprendre à votre rythme et développer vos compétences en ligne.</p>
+    <div class="fso">
+      <a href="#" aria-label="Instagram">📸</a>
+      <a href="#" aria-label="YouTube">▶️</a>
+      <a href="#" aria-label="LinkedIn">💼</a>
+    </div>
+  </div>
+  <div>
+    <h5>Navigation</h5>
+    <ul>
+      <li><a href="#cat">Formations</a></li>
+      <li><a href="#cat">Ebooks</a></li>
+      <li><a href="#av">Comment ça marche</a></li>
+      <li><a href="#tem">Témoignages</a></li>
+      <li><a href="#pack">Pack Complet</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Légal &amp; Contact</h5>
+    <ul>
+      <li><a href="#">Mentions légales</a></li>
+      <li><a href="#">CGV</a></li>
+      <li><a href="#">Politique de confidentialité</a></li>
+      <li><a href="mailto:my.formationspro@gmail.com">my.formationspro@gmail.com</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="fbot">
+  <span>© 2025 FormationPro — Tous droits réservés</span>
+  <span>Paiement 100% sécurisé 🔒 · <a href="#">CGV</a> · <a href="#">Mentions légales</a></span>
+</div>
+
+<div class="ovl" id="ovl" onclick="clOut(event)">
+  <div class="modal">
+    <button class="mx" onclick="closeM()">✕</button>
+    <h2>Finaliser votre achat</h2>
+    <p class="mn" id="mn"></p>
+    <div class="mp" id="mp"></div>
+    <div class="murg">🔥 Plus que <span id="ms">7</span> places à ce prix</div>
+    <div class="mpe">
+      <div class="pk">⚡ Accès immédiat</div>
+      <div class="pk">♾️ Accès à vie</div>
+      <div class="pk">🛡️ 30j remboursé</div>
+    </div>
+    <hr class="div">
+    <p class="mtxt">Vous allez être redirigé vers la page de paiement <strong>Stripe</strong> sécurisée pour finaliser votre achat en toute sécurité.</p>
+    <button class="btp" onclick="goS()">🔒 Procéder au paiement →</button>
+    <p class="sec2">🔒 Paiement sécurisé par <strong style="color:#635bff">Stripe</strong> · SSL · Remboursement 30 jours garanti</p>
+  </div>
+</div>
+
+<div class="toast" id="tst"></div>
+<button class="fb" onclick="goTo('cat')">Voir le catalogue →</button>
+
+<script>
+var sl='';
+var sk=[4,5,6,7,8,9,11];
+
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('bar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';
+  document.getElementById('nav').classList.toggle('sc',d.scrollTop>40);
+},{passive:true});
+
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});closeMn();}
+function togMenu(){document.getElementById('bur').classList.toggle('open');document.getElementById('mnav').classList.toggle('open');}
+function closeMn(){document.getElementById('bur').classList.remove('open');document.getElementById('mnav').classList.remove('open');}
+
+function fil(c,b){
+  document.querySelectorAll('.flt').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+  document.querySelectorAll('.card').forEach(function(card){
+    var show=c==='all'?true:(c==='formation'||c==='ebook')?card.dataset.t===c:card.dataset.c===c;
+    card.style.display=show?'block':'none';
+  });
+}
+
+function openM(n,p,l){
+  sl=l;
+  document.getElementById('mn').textContent=n;
+  document.getElementById('mp').textContent=p;
+  document.getElementById('ms').textContent=sk[Math.floor(Math.random()*sk.length)];
+  document.getElementById('ovl').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){document.getElementById('ovl').classList.remove('open');document.body.style.overflow='';}
+function clOut(e){if(e.target===document.getElementById('ovl'))closeM();}
+function goS(){if(sl)window.open(sl,'_blank');closeM();}
+
+function sub(){
+  var e=document.getElementById('nle').value.trim();
+  if(e&&e.indexOf('@')>-1){showT('🎉 Inscription réussie ! À bientôt.',false);document.getElementById('nle').value='';}
+  else showT('⚠️ Veuillez entrer un email valide.',true);
+}
+
+function showT(m,w){
+  var t=document.getElementById('tst');
+  t.textContent=m;
+  t.className='toast'+(w?' w':'');
+  t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on');},4000);
+}
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
+</script>
+</body>
+</html>
+<!-- ANIMATION PATCH - safe for all browsers -->
+<style>
+/* Les éléments sont TOUJOURS visibles - l'animation est un bonus */
+.anim { transition: opacity .6s ease, transform .6s ease; }
+.anim-left { transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.3,1); }
+.anim-right { transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.3,1); }
+.anim-up { transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.3,1); }
+
+/* État "avant animation" - appliqué seulement si JS est prêt */
+body.js-ready .anim:not(.done) { opacity: 0; transform: translateY(30px); }
+body.js-ready .anim-left:not(.done) { opacity: 0; transform: translateX(-30px); }
+body.js-ready .anim-right:not(.done) { opacity: 0; transform: translateX(30px); }
+body.js-ready .anim-up:not(.done) { opacity: 0; transform: translateY(20px); }
+
+/* État final visible */
+.anim.done,.anim-left.done,.anim-right.done,.anim-up.done { opacity:1!important; transform:none!important; }
+
+/* Délais d'entrée pour les grilles */
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+</style>
+<script>
+(function(){
+  // Marque le body prêt - les éléments vont se cacher
+  document.body.classList.add('js-ready');
+
+  var items = [];
+  var observer;
+
+  function collect(){
+    document.querySelectorAll('.anim,.anim-left,.anim-right,.anim-up').forEach(function(el){
+      if(!el.dataset.obs){ el.dataset.obs='1'; items.push(el); }
+    });
+  }
+
+  function reveal(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('done');
+        observer.unobserve(e.target);
+      }
+    });
+  }
+
+  function fallback(){
+    // Si pas d'IntersectionObserver (vieux Safari) → tout afficher direct
+    items.forEach(function(el){ el.classList.add('done'); });
+  }
+
+  if('IntersectionObserver' in window){
+    observer = new IntersectionObserver(reveal,{rootMargin:'0px 0px -60px 0px',threshold:0.08});
+    collect();
+    items.forEach(function(el){ observer.observe(el); });
+  } else {
+    fallback();
+  }
+})();
+</script>
